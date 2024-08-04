@@ -2127,6 +2127,50 @@
 	// Ability: Marci 玛西
 	//=================================================================================================================
 	// 过肩摔
+	"marci_feint_custom"
+	{
+		// General
+		//-------------------------------------------------------------------------------------------------------------
+		"BaseClass"             		"ability_lua"
+		"ScriptFile"             		"heroes/hero_marci/feint"
+		"AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_PASSIVE | DOTA_ABILITY_BEHAVIOR_SKIP_FOR_KEYBINDS"
+		"AbilityDamage"					"DAMAGE_TYPE_PHYSICAL"
+		"AbilityCooldown"				"0.2"
+		"AbilityManaCost"				"0"
+		"Innate"						"1"
+		"MaxLevel"						"1"
+		"RequiredLevel"					"1"
+
+		"AbilityValues"
+		{
+ 				"chance"
+				{
+					"value"	"0"
+					"special_bonus_facet_marci_bodyguard"	"=25"
+				}
+ 				"attack_damage_pct_to_damage"
+				{
+					"value"	"0"
+					"CalculateSpellDamageTooltip"		"0"
+					"special_bonus_facet_marci_bodyguard"	"=75"
+					"special_bonus_scepter"	"x2"
+				}
+ 				"evasion_chance_multiplier"
+				{
+					"value"	"0"
+					"special_bonus_facet_marci_bodyguard" "=1"
+					"special_bonus_scepter"	"x4"
+				}
+ 				"max_range"
+				{
+					"value"	"0"
+					"special_bonus_facet_marci_bodyguard"	"=500"
+					"affected_by_aoe_increase" "1"
+				}
+			}
+		}
+	}
+
 	"marci_grapple"
 	{
 		"MaxLevel" "5"
@@ -2136,7 +2180,7 @@
 				"impact_damage"
 				{
 					"value"			"210 280 350 420 490"
-					"special_bonus_unique_marci_grapple_damage"	"+70"
+					"special_bonus_unique_marci_grapple_damage"	"+110"
 				}
 				"movement_slow_pct"		"40 50 60 70 80"
 		}
@@ -2145,23 +2189,33 @@
 	"marci_companion_run"
 	{
 		"MaxLevel" "5"
-		"AbilityManaCost"				"70 80 90 100 110"
+		"AbilityManaCost"				"85"
 		"AbilityValues"
 		{
 				"AbilityCooldown"
 				{
-					"value"		"17 15 13 11 9"
-					"special_bonus_unique_marci_lunge_cooldown"	"-2"
+					"value"		"14 13 12 11 10"
+					"special_bonus_unique_marci_lunge_cooldown"	"-3"
 				}
 				"landing_radius"		"325"
+				"max_jump_distance"     
+                {
+                    "value"                                     "450 550 650 750 850"
+                    "special_bonus_unique_marci_lunge_range"    "+150"
+                }
+                "AbilityCastRange"
+                {
+                    "value"                                     "450 550 650 750 850"
+                    "special_bonus_unique_marci_lunge_range"    "+150"
+                }
 				"impact_damage"
 				{
-					"value"				"90 160 230 300 370"
+					"value"				"80 160 240 320 400"
 					"LinkedSpecialBonus"	"special_bonus_unique_marci_lunge_damage"
 				}
 				"debuff_duration"
 				{
-					"value"			"0.8 1.1 1.4 1.7 2.0"
+					"value"			"1.0 1.25 1.5 1.75 2.0"
 					"special_bonus_unique_marci_grapple_stun_duration"	"+0.75"
 				}
 				"ally_movespeed_pct"	"25 30 35 40 45"
@@ -2170,52 +2224,75 @@
 	// 健体术
 	"marci_guardian"
 	{
-		"LinkedAbility"                 "broodmother_insatiable_hunger"
-		"AbilityDraftPreAbility"        "broodmother_insatiable_hunger"
 		"MaxLevel" "5"
-		"AbilityCooldown"				"28 24 20 16 12"
-		"AbilityManaCost"				"70 80 90 100 110"
+		"LinkedAbility"					"marci_bodyguard"
+		"AbilityCooldown"				"15"
+		"AbilityManaCost"				"45 40 35 30 25"
 		"AbilityValues"
 		{
 			"lifesteal_pct"
 			{
-				"value"			"10 15 20 25 30"
-				"special_bonus_unique_marci_guardian_lifesteal"	"+10"
+				"value"			"20 30 40 50 60"
+				"special_bonus_unique_marci_guardian_lifesteal"	"+15"
 			}
 			"bonus_damage"
 			{
-				"value"				"10 20 40 80 160"	// 6 12 24 48
-				"special_bonus_unique_marci_guardian_damage"			"+65"
+				"value"				"20 40 60 80 100"	// 6 12 24 48
+				"special_bonus_unique_marci_guardian_damage"			"+50"
 			}
 		}
+		"max_partner_distance"              
+            {
+                "value"     "4000"
+				"special_bonus_facet_marci_sidekick" "=99999999"
+                "affected_by_aoe_increase" 
+				{
+					"value"		"1"
+					"special_bonus_facet_marci_sidekick" "=0"
+				}
+            }
+            "max_partner_penalty"
+			{
+			"value"			"50"
+			"special_bonus_facet_marci_sidekick "=100"
+			}
 	}
-	// 极度饥渴（来自蜘蛛）
-	"broodmother_insatiable_hunger"
-	{
-		"LinkedAbility"                 "marci_guardian"
-		"AbilityDraftPreAbility"        "marci_guardian"
-		"MaxLevel"                      "5"
-		"AbilityCooldown"				"50 45 40 35 30"
-		"AbilityManaCost"				"80"
-		"AbilityValues"
-		{
-			"bonus_damage"
+	"marci_bodyguard"
+    {
+	"MaxLevel" "5"
+	"LinkedAbility"			"marci_guardian"
+        "AbilityCooldown"               "20"
+        "AbilityManaCost"               "50"
+        "AbilityValues"
+        {
+            "bodyguard_duration"
+            {
+                "value"                                         "6.0 6.5 7.0 7.5 8.0"
+            }
+            "lifesteal_pct"
+            {
+                "value"                                         "20 30 40 50 60"
+                "special_bonus_unique_marci_guardian_lifesteal" "+15"
+            }
+            "bonus_damage"      
+            {
+                "value"                                         "20 40 60 80 100"
+                "special_bonus_unique_marci_guardian_damage"    "+50"
+            }
+            "bodyguard_attack_range_buffer"
+            {
+                "value"                                         "250"
+                "special_bonus_facet_marci_bodyguard"			"=500"
+                "affected_by_aoe_increase"						"1"
+            }
+            "bonus_armor"                                       "4 8 12 16 20"
+            "counter_cooldown"
 			{
-				"value"					"30 40 50 60 70"
-				"CalculateSpellDamageTooltip"	"0"
+				"value"											"0.4 0.35 0.3 0.25 0.2"
+				"special_bonus_facet_marci_bodyguard"			"=0"
 			}
-			"lifesteal_pct"
-			{
-				"value"				"40 60 80 100 120"
-			}
-			"creep_lifesteal_reduction_pct"		"40"
-			"duration"
-			{
-				"value"		"8 10 12 14 16"
-				"special_bonus_shard"	"+2"
-			}
-		}
-	}
+        }
+    }
 	// 怒拳破
 	"marci_unleash"
 	{
@@ -2224,14 +2301,14 @@
 		"AbilityManaCost"				"100 125 150 175"
 		"AbilityValues"
 		{
-				"charges_per_flurry"	"6 8 10 12"	//4 5 6 7
-				"flurry_bonus_attack_speed"	"700 975 1325 1600"
-				"time_between_flurries"	"1.3"	// 1.5
-				"pulse_damage"			"50 100 150 200"
-				"pulse_attack_slow_pct"	"60.0 80.0 100.0 120.0"
+				"charges_per_flurry"	"6"	//5
+				"flurry_bonus_attack_speed"	"800 1200 1600 2000"
+				"time_between_flurries"	"1.25 1.0 0.75 0.5"	// 1.5
+				"pulse_damage"			"125 250 375 500"
+				"pulse_attack_slow_pct"	"150.0 300.0 475.0 600.0"
 				"scepter_cooldown_reduction"
 				{
-					"value"					"10.0"
+					"value"					"15.0"
 					"RequiresScepter"		"1"
 				}
 		}
@@ -5796,6 +5873,13 @@
 	// Ability: Mirana 米拉娜/白虎POM
 	//=================================================================================================================
 	// 射箭
+	"mirana_selemenes_faithful"
+    {
+        "AbilityValues"
+        {
+            "bonus_lotus"   "50"
+        }
+    }
 	"mirana_arrow"
 	{
 		"MaxLevel" "5"
@@ -5818,6 +5902,29 @@
 				"bonus_movement_speed"		"9 12 15 18"
 		}
 	}
+	"mirana_solar_flare"
+    {
+       	"MaxLevel" "4"
+        "AbilityValues"
+        {
+            "AbilityCooldown"               
+            {
+                "value"         "140.0 120.0 100.0 80.0"
+                "special_bonus_unique_mirana_4"         "-20"               
+            }
+            "smoothness"                        "0.015"
+            "increase_rate"                     "12 24 36 48"
+            "day_vision_multiplier"             "3"
+            "ally_pct"                          "75"
+            "duration"                          "18 20 22 24"
+            "max_damage_time"                   "8 7 6 5"
+            "evasion"       
+            {
+                "value"         "0"
+                "special_bonus_unique_mirana_5"     "+20"
+            }
+        }
+    }
 	// 跳跃
 	"mirana_leap"
 	{
@@ -11924,12 +12031,22 @@
 	"windrunner_windrun"
 	{
 		"MaxLevel" "5"
-		"AbilityCooldown"				"15"
+		"AbilityCooldown"
+		{
+			"value"	"15"
+			"special_bonus_facet_windrunner_tailwind"	"=10"
+		}
 		"AbilityDuration"				"3 4 5 6 7"
 		"AbilityValues"
 		{
 			"duration"					"3 4 5 6 7"
 		}
+		"physical_damage_pct"
+            {
+                "value"             "0"
+				"special_bonus_facet_windrunner_tailwind" "-15"
+                "special_bonus_scepter"     "-30"
+            }
 	}
 	// 集中火力
 	"windrunner_focusfire"
@@ -11937,7 +12054,6 @@
 		"MaxLevel" "4"
 		"AbilityCooldown"				"60 50 40 30"
 		"AbilityDuration"				"20.0"
-		"AbilityManaCost"				"75 100 125 150"
 		"AbilityValues"
 		{
 			"AbilityDuration"
@@ -11957,7 +12073,18 @@
 			"focusfire_damage_reduction"
 			{
 				"value"						"-30"
+				"special_bonus_facet_windrunner_whirlwind" "=-45"
 				"special_bonus_unique_windranger_8"		"+30" // 12
+			}
+			"AbilityCooldown"
+			{
+				"value" "60 50 40 30"
+				"special_bonus_facet_windrunner_whirlwind" "=75 =70 =65 =60"
+			}
+			"AbilityManaCost"
+			{
+				"value"		"50 75 100 125"
+				"special_bonus_facet_windrunner_whirlwind"	"100 200 300 400"
 			}
 			"duration_increase_per_kill"
 			{
@@ -11972,8 +12099,16 @@
 	{
 		"AbilityValues"
 		{
-			"min_movespeed"		"320"	// 240
-			"max_movespeed"		"1200"	// 600
+			"min_movespeed"
+			{
+				"value"	"300"	// 600
+				"special_bonus_facet_windrunner_tailwind" "=330"
+			}
+			"max_movespeed"
+			{
+				"value"	"1000"	// 600
+				"special_bonus_facet_windrunner_tailwind" "=1250"
+			}
 		}
 	}
 	//=================================================================================================================
